@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 
+import javax.transaction.Transactional;
 import java.util.List;
 import java.util.Optional;
 
@@ -38,5 +39,23 @@ public class StudentService {
                         + " does not exists!");
         }
         studentRepository.deleteById(id);
+    }
+
+    @Transactional
+    public void updateStudent(Long studentId, String name, String email) {
+        Student student = studentRepository.findById(studentId)
+                .orElseThrow(() -> new IllegalArgumentException("Student with id: " + studentId
+                        + " does not exists!"));
+
+        if(!name.isBlank()){
+            student.setName(name);
+        }
+
+        if(!email.isBlank()){
+            student.setEmail(email);
+        }
+
+        studentRepository.save(student);
+
     }
 }
