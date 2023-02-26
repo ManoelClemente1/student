@@ -21,7 +21,7 @@ public class StudentService {
 
     }
 
-    public void addNewStudent(Student student) {
+    public Student addNewStudent(Student student) {
         Optional<Student> studentOptional= studentRepository
                 .findStudentByEmail(student.getEmail());
 
@@ -29,7 +29,7 @@ public class StudentService {
             throw new IllegalArgumentException("email taken");
         }
 
-        studentRepository.save(student);
+        return studentRepository.save(student);
     }
 
     public void deleteStudent(Long id) {
